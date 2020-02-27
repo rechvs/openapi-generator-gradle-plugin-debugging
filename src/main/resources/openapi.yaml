@@ -1,0 +1,34 @@
+openapi: 3.0.2
+info:
+  description: "Debugging project"
+  version: "0.0.1"
+  title: "A project"
+paths:
+  /rest/{resourceName}:
+    get:
+      description: Retrieve resource.
+      operationId: getResource
+      parameters:
+        - $ref: '#/components/parameters/resourceName'
+      responses:
+        '200':
+          description: A resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resource'
+components:
+  schemas:
+    resource:
+      type: object
+      properties:
+        content:
+          type: string
+  parameters:
+    resourceName:
+      name: resourceName
+      in: path
+      schema:
+        type: string
+        description: Resource name.
+      required: true

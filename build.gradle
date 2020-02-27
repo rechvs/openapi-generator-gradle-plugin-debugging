@@ -1,0 +1,41 @@
+import java.nio.file.Paths
+
+plugins {
+    id 'java'
+    id "org.openapi.generator" version "4.2.3"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+def generateSrcDir = Paths.get(buildDir.toString(), "generate-src").toString()
+def templateDir = "src/main/resources/openapi-generator-templates/non-existent-directory/"
+def openApiYamlFilePath = "src/main/resources/openapi.yaml"
+
+sourceSets {
+    main {
+        java {
+            srcDirs Paths.get(generateSrcDir, "src", "main", "java")
+        }
+    }
+}
+
+openApiGenerate {
+    apiPackage = "de.debug-project.generated.api"
+    generatorName = "spring"
+    inputSpec = openApiYamlFilePath.toString()
+    library = "spring-mvc"
+    modelPackage = "de.debug-project.generated.model"
+    outputDir = generateSrcDir.toString()
+    templateDir = templateDir.toString()
+}
